@@ -8,30 +8,17 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.util.Map;
 import java.util.Objects;
-import java.util.HashMap;
 import java.net.http.HttpClient.Redirect;
 import java.net.http.HttpClient.Version;
 
 public class HttpManager {
-  public static void main(String[] args) {
-    try {
-      Map<String, String> headers = new HashMap<>();
-      headers.put("Content-Type", "application/json");
-      headers.put("Accept", "application/json");
-      HttpResponse<String> response = delete("https://httpbin.org/delete");
-      System.out.println(response.statusCode());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   /**
    * URL存在チェック
    * 
    * @param urlStr
    * @return
    */
-  public static boolean isExistURL(String urlStr) {
+  public boolean isExistURL(String urlStr) {
     URL url;
     int status = 0;
     try {
@@ -54,7 +41,7 @@ public class HttpManager {
    * 
    * @return HttpClientInstance
    */
-  public static HttpClient createClient() {
+  public HttpClient createClient() {
     return HttpClient.newBuilder().version(Version.HTTP_2).followRedirects(Redirect.NORMAL).build();
   }
 
@@ -63,7 +50,7 @@ public class HttpManager {
    * @param url
    * @return
    */
-  public static HttpResponse<String> get(String url) throws IOException, InterruptedException {
+  public HttpResponse<String> get(String url) throws IOException, InterruptedException {
     HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
     return fetch(request);
   }
@@ -74,7 +61,7 @@ public class HttpManager {
    * @param requestBody json文字列
    * @return
    */
-  public static HttpResponse<String> post(String url, String requestBody)
+  public HttpResponse<String> post(String url, String requestBody)
       throws IOException, InterruptedException {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(url))
@@ -89,7 +76,7 @@ public class HttpManager {
    * @param headers ヘッダー
    * @return
    */
-  public static HttpResponse<String> post(String url, String requestBody, Map<String, String> headers)
+  public HttpResponse<String> post(String url, String requestBody, Map<String, String> headers)
       throws IOException, InterruptedException {
     HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
         .uri(URI.create(url))
@@ -110,7 +97,7 @@ public class HttpManager {
    * @param requestBody json文字列
    * @return
    */
-  public static HttpResponse<String> put(String url, String requestBody)
+  public HttpResponse<String> put(String url, String requestBody)
       throws IOException, InterruptedException {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(url))
@@ -125,7 +112,7 @@ public class HttpManager {
    * @param headers ヘッダー
    * @return
    */
-  public static HttpResponse<String> put(String url, String requestBody, Map<String, String> headers)
+  public HttpResponse<String> put(String url, String requestBody, Map<String, String> headers)
       throws IOException, InterruptedException {
     HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
         .uri(URI.create(url))
@@ -140,7 +127,7 @@ public class HttpManager {
     return fetch(requestBuilder.build());
   }
 
-  public static HttpResponse<String> delete(String url) throws IOException, InterruptedException {
+  public HttpResponse<String> delete(String url) throws IOException, InterruptedException {
     HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).DELETE().build();
     return fetch(request);
   }
@@ -152,7 +139,7 @@ public class HttpManager {
    * @throws IOException
    * @throws InterruptedException
    */
-  public static HttpResponse<String> fetch(HttpRequest request) throws IOException, InterruptedException {
+  public HttpResponse<String> fetch(HttpRequest request) throws IOException, InterruptedException {
     HttpClient client = createClient();
     return client.send(request, HttpResponse.BodyHandlers.ofString());
   }
