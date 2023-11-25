@@ -41,7 +41,7 @@ public class HttpManager {
    * 
    * @return HttpClientInstance
    */
-  public HttpClient createClient() {
+  private HttpClient createClient() {
     return HttpClient.newBuilder().version(Version.HTTP_2).followRedirects(Redirect.NORMAL).build();
   }
 
@@ -139,7 +139,7 @@ public class HttpManager {
    * @throws IOException
    * @throws InterruptedException
    */
-  public HttpResponse<String> fetch(HttpRequest request) throws IOException, InterruptedException {
+  private HttpResponse<String> fetch(HttpRequest request) throws IOException, InterruptedException {
     HttpClient client = createClient();
     return client.send(request, HttpResponse.BodyHandlers.ofString());
   }
